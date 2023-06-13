@@ -148,6 +148,86 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://lcinto.github.io/2023/06/13/%E9%9D%A2%E7%BB%8F%E5%87%86%E5%A4%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Exliburcheng">
+      <meta itemprop="description" content="God kisses the finite in his love and man the infinite">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="乐橙的博博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/06/13/%E9%9D%A2%E7%BB%8F%E5%87%86%E5%A4%87/" class="post-title-link" itemprop="url">面经准备</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-06-13 10:32:13 / 修改时间：11:10:40" itemprop="dateCreated datePublished" datetime="2023-06-13T10:32:13+08:00">2023-06-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h2 id="为什么索引Index的实现要用B-树？"><a href="#为什么索引Index的实现要用B-树？" class="headerlink" title="为什么索引Index的实现要用B+树？"></a>为什么索引Index的实现要用B+树？</h2><blockquote>
+<h2 id="1-相关知识"><a href="#1-相关知识" class="headerlink" title="1.相关知识"></a>1.相关知识</h2><p><strong>索引是对数据库表中一列或多列的值进行排序的一种结构，使用索引可快速访问数据库表中的特定信息。</strong></p>
+<p>平衡二叉树（AVL树）：左右两个子树的高度差的绝对值不超过1</p>
+<h2 id="2-索引的优点"><a href="#2-索引的优点" class="headerlink" title="2.索引的优点"></a>2.索引的优点</h2><ol>
+<li>通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性。</li>
+<li>可以大大加快数据的检索速度，这也是创建索引的最主要的原因。</li>
+<li>可以加速表和表之间的连接，特别是在实现数据的参考完整性方面特别有意义。</li>
+<li>在使用分组和排序子句进行数据检索时，同样可以显著减少查询中分组和排序的时间。</li>
+<li>通过使用索引，可以在查询的过程中，使用优化隐藏器，提高系统的性能。</li>
+</ol>
+<h2 id="3-索引类型"><a href="#3-索引类型" class="headerlink" title="3.索引类型"></a>3.索引类型</h2><p><strong>聚簇索引</strong>：将数据存储和索引放在一起、并且是按照一定的顺序组织的，找到索引也就找到了数据，数据的物理存放顺序与索引顺序是一致的，即：只要索引是相邻的，那么对应的数据一定也是相邻的存放在磁盘上的。</p>
+<p><strong>非聚簇索引</strong>：叶子节点不存储数据，存储的是数据行地址，也就是说根据索引查找到数据行的位置再去磁盘查找数据，这就有点类似一本书的目录，比如要找到第三章第一节，那就现在目录里面查找，找到对应的页码后再去对应的页码看文章。</p>
+</blockquote>
+<p><strong>回答一：</strong></p>
+<p>首先明确什么是**B+**树，B+树就是每个节点有N个子节点的树，我们都知道平衡二叉树的查询效率是最高的(O(logN))，但是为什么不使用二叉树来建立索引，这就涉及两个方面的的知识：</p>
+<p>首先是了解<strong>计算机的存储结构</strong>：寄存器-&gt;cache-&gt;内存-&gt;外存，我们也知道从上到下访问速度是由快到慢，存储量也是由小到大，因为数据库的数据量是十分庞大的，所以数据库中的内容是存储在外存中，而在外存到内存的IO中，每次访问的节点越少，访问效率也就会越高，而B+树正契合这一点，它一个节点能存储的数据是二叉树的好几倍，如果使用二叉树，还会使索引的深度太深而延长查询时间。</p>
+<p>这就引出第二个方面，为什么访问的节点少就意味着查询速度快，这就涉及到<strong>操作系统</strong>方面的知识，我们知道os从外存到内存的访问单位是页，每次只能是页的整数倍而不会出现半页之类的情况，因此每页中的节点的数据越少，就说明我们会多浪费该页存储节点数据以外的空间，只有该节点存储的数据量等于或者大于页的大小时，这样的IO才是高效的。</p>
+<p><strong>回答二</strong>：（为什么不使用排序二叉树？）</p>
+<p>当数据库插入的数据有序时(2.3.4.5)，如果以2为头节点，这样的树就变为斜树，查询效率和链表一致，做了全表扫描（O(N)）相当于索引失效。</p>
+<ul>
+<li>进阶：为什么索引要使用B+树而不是B树或者红黑树？</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://lcinto.github.io/2023/06/12/Leetcode%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -179,7 +259,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-13 09:52:33" itemprop="dateModified" datetime="2023-06-13T09:52:33+08:00">2023-06-13</time>
+                <time title="修改时间：2023-06-13 10:34:23" itemprop="dateModified" datetime="2023-06-13T10:34:23+08:00">2023-06-13</time>
               </span>
 
           
@@ -565,81 +645,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://lcinto.github.io/2023/06/07/to_yxy/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Exliburcheng">
-      <meta itemprop="description" content="God kisses the finite in his love and man the infinite">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="乐橙的博博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/06/07/to_yxy/" class="post-title-link" itemprop="url">To 心一</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-06-07 19:30:56" itemprop="dateCreated datePublished" datetime="2023-06-07T19:30:56+08:00">2023-06-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-01 10:11:58" itemprop="dateModified" datetime="2023-06-01T10:11:58+08:00">2023-06-01</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>心一</p>
-<p>​		见字如面</p>
-<p>​		祝好</p>
-<blockquote>
-<p>I strove with none, </p>
-<p>for none was worth my strife.</p>
-<p>Nature I loved and, next to Nature, Art:</p>
-<p>I warm’d both hands before the fire of life.</p>
-<p>It sinks, and I am ready to depart.</p>
-<p>​								——Walter Savage Landor </p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
 
@@ -711,6 +716,10 @@
           <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
       </div>
   </nav>
 </div>
