@@ -22,9 +22,9 @@
 
   <meta name="description" content="God kisses the finite in his love and man the infinite">
 <meta property="og:type" content="website">
-<meta property="og:title" content="乐橙的博博客">
+<meta property="og:title" content="乐金成的博博客">
 <meta property="og:url" content="https://lcinto.github.io/index.html">
-<meta property="og:site_name" content="乐橙的博博客">
+<meta property="og:site_name" content="乐金成的博博客">
 <meta property="og:description" content="God kisses the finite in his love and man the infinite">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Exliburcheng">
@@ -43,7 +43,7 @@
   };
 </script>
 
-  <title>乐橙的博博客</title>
+  <title>乐金成的博博客</title>
   
 
 
@@ -94,10 +94,10 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">乐橙的博博客</h1>
+      <h1 class="site-title">乐金成的博博客</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">记录一些个人所学</p>
+      <p class="site-subtitle" itemprop="description">记录 所学</p>
   </div>
 
   <div class="site-nav-right">
@@ -157,7 +157,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="乐橙的博博客">
+      <meta itemprop="name" content="乐金成的博博客">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -179,7 +179,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-20 16:33:04" itemprop="dateModified" datetime="2023-06-20T16:33:04+08:00">2023-06-20</time>
+                <time title="修改时间：2023-06-21 17:19:31" itemprop="dateModified" datetime="2023-06-21T17:19:31+08:00">2023-06-21</time>
               </span>
 
           
@@ -214,7 +214,7 @@
 <p>（为什么不使用排序二叉树？）</p>
 <p>当数据库插入的数据有序时(2.3.4.5)，如果以2为头节点，这样的树就变为斜树，查询效率和链表一致，做了全表扫描（O(N)）相当于索引失效。</p>
 <ul>
-<li><p>进阶：为什么索引要使用B+树而不是B树或者红黑树？</p>
+<li><p>进阶：为什么索引要使用B+树而不是B-树或者红黑树？</p>
 <blockquote>
 <p>简单介绍下红黑树：</p>
 <ul>
@@ -229,7 +229,7 @@
 </li>
 </ul>
 <p>​		B-树，<strong>多路自平衡搜索树</strong>，B-树允许每个节点有更多的子节点，使每次磁盘IO取到内存的数据都发挥了作用，提高查询效率，IO渐进复杂度为O(h)。</p>
-<p>​		B-Tree的每个节点根据实际情况可以包含大量的关键字信息和分支，如键值、指针、数据(二元组的形式[key,data])，每个节点占用一个盘块的磁盘空间，因此如果data数据较大时会导致每一个页（节点）能存储的key很少：当存储的数据量很大时同样会导致B-Tree的深度较大，增大磁盘的IO次数，继而影响效率。</p>
+<p>​		B-Tree的每个节点根据实际情况可以包含大量的关键字信息和分支，如键值、指针、数据(二元组的形式[key,data])，<strong>每个节点占用一个盘块的磁盘空间</strong>，因此如果data数据较大时会导致每一个页（节点）能存储的key很少：当存储的数据量很大时同样会导致B-Tree的深度较大，增大磁盘的IO次数，继而影响效率。</p>
 <p>​		而在B+Tree中，所有数据记录节点都是按照<strong>键值大小</strong>顺序存放在同一层的<strong>叶子节点</strong>上，而<strong>非叶子节点</strong>上只存储<strong>key值</strong>信息，这样可以大大加大每个节点存储的key值数量，降低B+Tree的高度。</p>
 <p><strong>数据库B+Tree对于B-Tree优化思路有：</strong></p>
 <ol>
@@ -284,7 +284,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="乐橙的博博客">
+      <meta itemprop="name" content="乐金成的博博客">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
