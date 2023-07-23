@@ -20,18 +20,26 @@
     var CONFIG = {"hostname":"lcinto.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="数据库为什么索引Index的实现要用B+树？ 1.相关知识索引是对数据库表中一列或多列的值进行排序的一种结构，使用索引可快速访问数据库表中的特定信息。 平衡二叉树（AVL树）：左右两个子树的高度差的绝对值不超过1 2.索引的优点 通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性。 可以大大加快数据的检索速度，这也是创建索引的最主要的原因。 可以加速表和表之间的连接，特别是在实现数据的参考完">
+  <meta name="description" content="数据库1 为什么索引Index的实现要用B+树？ 1.相关知识索引是对数据库表中一列或多列的值进行排序的一种结构，使用索引可快速访问数据库表中的特定信息。 平衡二叉树（AVL树）：左右两个子树的高度差的绝对值不超过1 2.索引的优点 通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性。 可以大大加快数据的检索速度，这也是创建索引的最主要的原因。 可以加速表和表之间的连接，特别是在实现数据的参">
 <meta property="og:type" content="article">
 <meta property="og:title" content="面经准备">
 <meta property="og:url" content="https://lcinto.github.io/2023/06/13/%E9%9D%A2%E7%BB%8F%E5%87%86%E5%A4%87/index.html">
 <meta property="og:site_name" content="乐金成的博博客">
-<meta property="og:description" content="数据库为什么索引Index的实现要用B+树？ 1.相关知识索引是对数据库表中一列或多列的值进行排序的一种结构，使用索引可快速访问数据库表中的特定信息。 平衡二叉树（AVL树）：左右两个子树的高度差的绝对值不超过1 2.索引的优点 通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性。 可以大大加快数据的检索速度，这也是创建索引的最主要的原因。 可以加速表和表之间的连接，特别是在实现数据的参考完">
+<meta property="og:description" content="数据库1 为什么索引Index的实现要用B+树？ 1.相关知识索引是对数据库表中一列或多列的值进行排序的一种结构，使用索引可快速访问数据库表中的特定信息。 平衡二叉树（AVL树）：左右两个子树的高度差的绝对值不超过1 2.索引的优点 通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性。 可以大大加快数据的检索速度，这也是创建索引的最主要的原因。 可以加速表和表之间的连接，特别是在实现数据的参">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-091c5dd35c1e3324340e9dada9b56f53_720w.webp">
+<meta property="og:image" content="c:\Users\maoma\AppData\Roaming\Typora\typora-user-images\image-20230721223333049.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210630214036472.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTM2OTQ0,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210630214024233.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTM2OTQ0,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdn.net/20180619163612303?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIxOTkzNzg1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/20180619163403587?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIxOTkzNzg1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210630214304356.png#pic_center">
 <meta property="article:published_time" content="2023-06-13T02:32:13.000Z">
-<meta property="article:modified_time" content="2023-06-21T09:19:31.702Z">
+<meta property="article:modified_time" content="2023-07-22T14:20:51.161Z">
 <meta property="article:author" content="Exliburcheng">
 <meta property="article:tag" content="job">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic4.zhimg.com/80/v2-091c5dd35c1e3324340e9dada9b56f53_720w.webp">
 
 <link rel="canonical" href="https://lcinto.github.io/2023/06/13/%E9%9D%A2%E7%BB%8F%E5%87%86%E5%A4%87/">
 
@@ -182,7 +190,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-21 17:19:31" itemprop="dateModified" datetime="2023-06-21T17:19:31+08:00">2023-06-21</time>
+                <time title="修改时间：2023-07-22 22:20:51" itemprop="dateModified" datetime="2023-07-22T22:20:51+08:00">2023-07-22</time>
               </span>
 
           
@@ -196,7 +204,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h2 id="为什么索引Index的实现要用B-树？"><a href="#为什么索引Index的实现要用B-树？" class="headerlink" title="为什么索引Index的实现要用B+树？"></a>为什么索引Index的实现要用B+树？</h2><blockquote>
+        <h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h2 id="1-为什么索引Index的实现要用B-树？"><a href="#1-为什么索引Index的实现要用B-树？" class="headerlink" title="1 为什么索引Index的实现要用B+树？"></a>1 为什么索引Index的实现要用B+树？</h2><blockquote>
 <h2 id="1-相关知识"><a href="#1-相关知识" class="headerlink" title="1.相关知识"></a>1.相关知识</h2><p><strong>索引是对数据库表中一列或多列的值进行排序的一种结构，使用索引可快速访问数据库表中的特定信息。</strong></p>
 <p>平衡二叉树（AVL树）：左右两个子树的高度差的绝对值不超过1</p>
 <h2 id="2-索引的优点"><a href="#2-索引的优点" class="headerlink" title="2.索引的优点"></a>2.索引的优点</h2><ol>
@@ -254,7 +262,276 @@
 </ol>
 <p>说简单些，B树并没有解决元素遍历效率低下的问题，而B+树只需去遍历叶子节点就可以实现整棵树的遍历。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/dl962454/article/details/115800802">MySQL为什么用B+树做索引而不用B-树或红黑树</a></p>
-<h1 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h1><h1 id="JAVA"><a href="#JAVA" class="headerlink" title="JAVA"></a>JAVA</h1><h1 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h1><h1 id="产品经理"><a href="#产品经理" class="headerlink" title="产品经理"></a>产品经理</h1><ol>
+<h1 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h1><p>define中，替换只会直接替换，不会加括号。</p>
+<h2 id="1-虚：-函数、-函数表、-函数指针"><a href="#1-虚：-函数、-函数表、-函数指针" class="headerlink" title="1 虚：~函数、 ~函数表、 ~函数指针"></a>1 虚：~函数、 ~函数表、 ~函数指针</h2><h3 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h3><ol>
+<li><p>语法上，成员函数之前加上<code>virtual</code>关键字</p>
+</li>
+<li><p>函数的继承不应该从内存角度理解，而是继承调用权，OOP（面向对象编程）的继承特性需要搭配虚函数才能最大化体现继承优势</p>
+</li>
+<li><p>为什么设置虚函数？</p>
+<p><strong>父类在定义函数时决定暂缓具体实现步骤，因为子类在设计时有更具体的操作，通过把父类设置为虚函数，子类才有机会去重新定义</strong></p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CDocument</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">OnFileOpen</span><span class="params">()</span></span>&#123;</span><br><span class="line">        ···</span><br><span class="line">        <span class="built_in">Serialize</span>();</span><br><span class="line">        ···</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Serialize</span><span class="params">()</span></span>&#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//子类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CMyDoc</span>:<span class="keyword">public</span> CDocument&#123;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Serialize</span><span class="params">()</span></span>&#123;</span><br><span class="line">        ···</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="虚函数表、虚函数指针"><a href="#虚函数表、虚函数指针" class="headerlink" title="虚函数表、虚函数指针"></a>虚函数表、虚函数指针</h3><p>任何含有虚函数的类中，都有一个函数指针指向一个虚函数表（数组），数组中每个元素都是一个虚函数指针。</p>
+<p>如果父类的虚函数没有被子类改写，那么子类的虚函数表中的元素就是父类对应的虚函数指针；相反，如果子类改写了父类的虚函数，那么对应的虚函数表中的元素就是自己的虚函数指针。（动态绑定）</p>
+<p><img src="https://pic4.zhimg.com/80/v2-091c5dd35c1e3324340e9dada9b56f53_720w.webp" alt="img"></p>
+<h2 id="2-sort函数底层原理"><a href="#2-sort函数底层原理" class="headerlink" title="2 sort函数底层原理"></a>2 sort函数底层原理</h2><p>用到了快速排序，但是不止用了快排，还结合了插入排序和堆排序。</p>
+<h4 id="实现逻辑"><a href="#实现逻辑" class="headerlink" title="实现逻辑"></a>实现逻辑</h4><p>STL的sort算法在数据量大时采用快排，分段归并排序，一旦分段<strong>数据量小</strong>于某个门槛时为避免快排的递归调用带来的额外负荷就改用<u>插入排序</u>，如果递归<strong>层次过深</strong>，则改用<u>堆排序</u>。</p>
+<blockquote>
+<p>为什么不直接使用堆排序而需要先使用快排？</p>
+<ol>
+<li><strong>堆排序访问数据的方式没有快速排序友好</strong>。</li>
+<li>在排序过程中，<strong>堆排序算法的数据交换次数要多于快速排序</strong>。</li>
+</ol>
+</blockquote>
+<h2 id="3-浅拷贝和深拷贝"><a href="#3-浅拷贝和深拷贝" class="headerlink" title="3 浅拷贝和深拷贝"></a>3 浅拷贝和深拷贝</h2><h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ul>
+<li>在未定义显示拷贝构造函数的情况下，系统会调用默认的拷贝函数——即浅拷贝，它能够完成成员的一一复制。当数据成员中没有指针时，浅拷贝是可行的，但当数据成员中有<strong>指针</strong>时，如果采用简单的浅拷贝，<strong>则两类中的两个指针将指向同一个地址</strong>，当对象快结束时，会调用两次析构函数，从而导致指针悬挂现象，所以，此时，必须采用深拷贝。</li>
+<li>深拷贝会在堆内存中另外申请空间来存储数据，从而也就解决了指针悬挂的问题。因此当数据成员中有指针时，必须要用深拷贝。在实际自定义中，参数对象需要加上const，防止对象被改变。</li>
+</ul>
+<p>注意：</p>
+<ol>
+<li><p>当函数的参数为<strong>对象</strong>时，实参传递给形参的实际上是实参的一个拷贝对象，系统自动通过拷贝构造函数实现；</p>
+</li>
+<li><p>浅拷贝带来问题的本质在于析构函数释放多次堆内存，使用std::shared_ptr（智能指针），可以解决该问题。</p>
+</li>
+</ol>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/wenningker/article/details/120373986">c++深拷贝和浅拷贝</a>，<a target="_blank" rel="noopener" href="https://blog.csdn.net/caoshangpa/article/details/79226270">深拷贝具体例子</a></p>
+<h1 id="JAVA"><a href="#JAVA" class="headerlink" title="JAVA"></a>JAVA</h1><h1 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h1><h2 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h2><ul>
+<li>应用层在用户空间实现，因为应用层处理的逻辑众多，在内核会使其过于庞大。</li>
+</ul>
+<p><img src="C:\Users\maoma\AppData\Roaming\Typora\typora-user-images\image-20230721223333049.png" alt="image-20230721223333049"></p>
+<ul>
+<li>无状态（stateless）是指IP通信双方不同步传输数据的状态信息<ul>
+<li>缺点：可能出现乱序、重复</li>
+<li>优点：简单、高效</li>
+</ul>
+</li>
+<li>无连接（connectionless）是指IP通信双方都不长久地维持对方的任 何信息。</li>
+</ul>
+<h2 id="1-UDP-TCP基本介绍"><a href="#1-UDP-TCP基本介绍" class="headerlink" title="1 UDP TCP基本介绍"></a>1 UDP TCP基本介绍</h2><h3 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h3><p>UDP协议（User Datagram Protocol，用户数据报协议）为应用层提供<strong>不可靠、无连接和基于数据报</strong>的服务。</p>
+<blockquote>
+<p>基于数据报：每个UDP数据报都有一个长度， 接收端必须以该长度为最小单位将其所有内容一次性读出，否则数据将被截断。</p>
+</blockquote>
+<ul>
+<li>无连接，发送数据之前不需要建立连接。</li>
+<li>尽最大努力交付，不保证可靠交付，不使用拥塞控制。</li>
+<li>面向报文，适合多媒体通信。</li>
+<li>支持一对一，一对多，多对一，多对多的交互通信。</li>
+<li>首部开销小，8个字节。</li>
+</ul>
+<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3><p>TCP协议（Transmission Control Protocol，传输控制协议）为应用层 <strong>提供可靠的、面向连接的和基于流</strong>（stream）的服务。</p>
+<blockquote>
+<p>基于流的数据没有边界（长度）限制，它源源不断的从通信的一端流入另一端。</p>
+</blockquote>
+<ul>
+<li><p>面向连接。</p>
+</li>
+<li><p>每一条TCP有且只有两个端点，为一对一关系。</p>
+</li>
+<li><p>提供可靠交付。</p>
+</li>
+<li><p>全双工通信，全双工为即可传输又可接收。</p>
+</li>
+<li><p>面向字节流。</p>
+</li>
+</ul>
+<h2 id="2-TCP为什么可靠"><a href="#2-TCP为什么可靠" class="headerlink" title="2 TCP为什么可靠"></a>2 TCP为什么可靠</h2><ul>
+<li>乱序重排</li>
+<li>应答确认</li>
+<li>报文重传（超时重传）</li>
+<li>流量控制（接收方收不了）</li>
+<li>拥塞控制（网路收不了）</li>
+</ul>
+<ol>
+<li><strong>乱序重排</strong>，应答确认：由于网络或“多线程”等因素，接收方收到的数据段很可能是乱序的，不过每个TCP封装都有序号，接收方组装很容易。</li>
+</ol>
+<blockquote>
+<p>假如发送方的数据有1000字节，接收方收到后的确认号填写1001，是告诉发送方前面的都收到了。</p>
+</blockquote>
+<ol start="2">
+<li><p><strong>报文重传</strong>： </p>
+<ul>
+<li><p>超时重传：TCP会根据报文的往返时间（RTT）自动调整超时重传时间（RTO）。发送方每发一个报文段都会开始计时，如果时间超过RTO还没收到该报文段的确认，就重传该报文段。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210630214036472.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTM2OTQ0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+</li>
+<li><p>快速重传：发送的数据在路上丢失时使用。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210630214024233.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTM2OTQ0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>接收方收到序号1后，回复确认号2，希望下次收到序号2的报文段，但却乱序收到比序号2大的3、4、5报文段，于是连续发出确认号为2的报文段。如果发送方连续三次收到重复的确认号，立即重发该报文段，而不管是否超时。</p>
+</blockquote>
+<ol start="3">
+<li><strong>流量控制</strong>：</li>
+</ol>
+<blockquote>
+<p>首先需明白，应用程序无论发送还是接收数据，均需要将数据放入缓冲区，再从缓冲区发出或读取数据。</p>
+<p>发送方发送速度和接收方处理速度很难一致。</p>
+</blockquote>
+<p>​		TCP在三次握手建立连接时，会协商双方缓冲区window大小。如果因为接收方处理速度较慢，接收方会通过window告知发送方，实现动态调整，避免“溢出”。</p>
+<p>​		TCP滑动窗口分为<strong>接受窗口，发送窗口。</strong></p>
+<p>​		滑动窗口协议是传输层进行流控的一种措施，接收方通过通告发送方自己的窗口大小，从而控制发送方的发送速度，从而达到防止发送方发送速度过快而导致自己被淹没的目的。</p>
+<p>对ACK的再认识，ack通常被理解为收到数据后给出的一个确认ACK，ACK包含两个非常重要的信息：</p>
+<ul>
+<li><strong>期望接收到的下一字节的序号n，该n代表接收方已经接收到了前n-1字节数据，此时如果接收方收到第n+1字节数据而不是第n字节数据，接收方是不会发送序号为n+2的ACK的。</strong></li>
+</ul>
+<blockquote>
+<p>举个例子，假如接收端收到1-1024字节，它会发送一个确认号为1025的ACK,但是接下来收到的是2049-3072，它是不会发送确认号为3072的ACK,而依旧发送1025的ACK。</p>
+</blockquote>
+<ul>
+<li>当前的窗口大小m，如此发送方在接收到ACK包含的这两个数据后就可以计算出还可以发送多少字节的数据给对方，假定当前发送方已发送到第x字节，则可以发送的字节数就是**y&#x3D;m-(x-n)**。其中n是发送方期望收到的下一个字节的序号。（滑动窗口控制流量的基本原理）</li>
+</ul>
+<ol start="4">
+<li><strong>拥塞控制</strong>：swnd发送窗口 &#x3D; min(cwnd拥塞窗口, rwnd接收窗口)<ul>
+<li>慢启动（开始），指数增长，直到cwnd等于ssthresh</li>
+<li>拥塞避免，cwnd每次只能加1，当出现丢失时才更改cwnd和ssthresh</li>
+<li>快速重传，前面提到过，发送方一旦接收到3个连续的重复确认，就将相应报文段立即重传</li>
+<li>快速恢复，区别个别报文丢失还是网络拥塞，将<strong>swnd发送窗口 &#x3D; min(cwnd拥塞窗口, rwnd接收窗口)</strong></li>
+</ul>
+</li>
+</ol>
+<p>具体可参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45136944/article/details/118106062">计网面经</a></p>
+<h2 id="3-TCP的三次握手与四次挥手"><a href="#3-TCP的三次握手与四次挥手" class="headerlink" title="3 TCP的三次握手与四次挥手"></a>3 TCP的三次握手与四次挥手</h2><blockquote>
+<p>相关报文<br>&#x3D;&#x3D;ACK&#x3D;&#x3D;：只有ACK&#x3D;1时有效，规定建立连接后所有发送的报文的ACK必须为1<br>&#x3D;&#x3D;SYN&#x3D;&#x3D;(SYNchronization) ：在连接建立时用来同步序号。当SYN&#x3D;1而ACK&#x3D;0时，表明这是一个连接请求报文。对方若同意建立连接，则应在响应报文中使SYN&#x3D;1和ACK&#x3D;1. 因此,  SYN置1就表示这是一个连接请求或连接接受报文。</p>
+<p>&#x3D;&#x3D;FIN&#x3D;&#x3D; （finis）： 用来释放一个连接。当 FIN &#x3D; 1 时，表明此报文段的发送方的数据已经发送完毕，并要求释放连接。</p>
+</blockquote>
+<h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><p><img src="https://img-blog.csdn.net/20180619163612303?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIxOTkzNzg1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<ol>
+<li><p>TCP服务器进程先创建传输控制块TCB，时刻准备接受客户进程的连接请求，此时服务器就进入了LISTEN（监听）状态；</p>
+</li>
+<li><p>TCP客户进程也是先创建传输控制块TCB，然后向服务器发出连接请求报文，由Client发出请求连接即 SYN&#x3D;1 ACK&#x3D;0  ,同时选择一个初始序列号 seq&#x3D;x ，此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定，SYN报文段（SYN&#x3D;1的报文段）不能携带数据，但需要消耗掉一个序号。</p>
+</li>
+<li><p>TCP服务器收到请求报文后，如果同意连接，则发出确认报文。确认报文中应该 ACK&#x3D;1，SYN&#x3D;1，确认号是ack&#x3D;x+1，同时也要为自己初始化一个序列号 seq&#x3D;y，此时，TCP服务器进程进入了SYN-RCVD（同步收到）状态。这个报文也不能携带数据，但是同样要消耗一个序号。</p>
+</li>
+<li><p>TCP客户进程收到确认后，还要向服务器给出确认。确认报文的ACK&#x3D;1，ack&#x3D;y+1，自己的序列号seq&#x3D;x+1，此时，TCP连接建立，客户端进入ESTABLISHED（已建立连接）状态。TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。</p>
+</li>
+<li><p>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</p>
+</li>
+</ol>
+<p>为什么TCP客户端最后还要发送一次确认呢？( 为什么要进行三次握手呢（两次确认）? )<br>    建立三次握手主要是因为A发送了再一次的确认，那么A为什么会再确认一次呢，主要是为了防止已失效的连接请求报文段又突然传送给B，从而产生了错误。</p>
+<p>​	所谓“<strong>已失效的连接请求报文</strong>”是这样产生的，正常情况下，A发出连接请求，但是因为连接报文请求丢失而未收到确认，于是A再重传一次连接请求，后来收到了请求，并收到了确认，建立了连接，数据传输完毕后，就释放链接，A共发送了两次连接请求报文段，其中第一个丢失，第二个到达了B，没有“已失效的连接请求报文段”，但是还有异常情况下，A发送的请求报文连接段并没有丢失，而是在某个网络节点滞留较长时间，以致延误到请求释放后的某个时间到达B，本来是一个早已失效的报文段，但是B收到了此失效连接请求报文段后，就误以为A又重新发送的连接请求报文段，并发送确认报文段给A，同意建立连接，如果没有三次握手，那么B发送确认后，连接就建立了，而此时A没有发送建立连接的请求报文段，于是不理会B的确认，也不会给B发送数据，而B却一直等待A发送数据，因此B的许多资源就浪费了，采用三次握手的方式就可以防止这种事情发生。</p>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><p><img src="https://img-blog.csdn.net/20180619163403587?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIxOTkzNzg1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<blockquote>
+<p>数据传输完毕后，双方都可释放连接。最开始的时候，客户端和服务器都是处于ESTABLISHED状态，然后客户端主动关闭，服务器被动关闭。</p>
+</blockquote>
+<ol>
+<li>客户端进程发出连接释放报文，并且停止发送数据。释放数据报文首部，FIN&#x3D;1，其序列号为seq&#x3D;u（等于前面已经传送过来的数据的最后一个字节的序号加1），此时，客户端进入FIN-WAIT-1（终止等待1）状态。<font color=#ff0000>    TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。 </font></li>
+<li>服务器收到连接释放报文，发出确认报文，ACK&#x3D;1，ack&#x3D;u+1，并且带上自己的序列号seq&#x3D;v，此时，服务端就进入了CLOSE-WAIT（关闭等待）状态。TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个状态还要持续一段时间，也就是整个CLOSE-WAIT状态持续的时间。</li>
+<li>客户端收到服务器的确认请求后，此时，客户端就进入FIN-WAIT-2（终止等待2）状态，等待服务器发送连接释放报文（在这之前还需要接受服务器发送的最后的数据）。</li>
+<li>服务器将最后的数据发送完毕后，就向客户端发送连接释放报文，FIN&#x3D;1，ack&#x3D;u+1，由于在半关闭状态，服务器很可能又发送了一些数据，假定此时的序列号为seq&#x3D;w，此时，服务器就进入了LAST-ACK（最后确认）状态，等待客户端的确认。</li>
+<li>客户端收到服务器的连接释放报文后，必须发出确认，ACK&#x3D;1，ack&#x3D;w+1，而自己的序列号是seq&#x3D;u+1，此时，客户端就进入了TIME-WAIT（时间等待）状态。注意此时TCP连接还没有释放，必须经过2∗<strong>MSL</strong>（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。</li>
+<li>服务器只要收到了客户端发出的确认，立即进入CLOSED状态。同样，撤销TCB后，就结束了这次的TCP连接。可以看到，服务器结束TCP连接的时间要比客户端早一些。</li>
+</ol>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_21993785/article/details/80735776">https://blog.csdn.net/qq_21993785/article/details/80735776</a></p>
+<h2 id="4-http与https的区别"><a href="#4-http与https的区别" class="headerlink" title="4 http与https的区别"></a>4 http与https的区别</h2><h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><p>1.HTTP协议目的是规定客户端和服务端数据传输的格式和数据交互行为，并不负责数据传输的细节。底层是基于TCP实现的。现在使用的版本当中是默认持久连接的，也就是多次HTTP请求使用一个TCP连接。</p>
+<p>2.HTTP协议是无状态的，每次HTTP请求都是独立的，任何两个请求之间没有什么必然的联系。但是在实际应用当中并不是完全这样的，引入了Cookie和Session机制来关联请求。</p>
+<p>3.方法：get，post，delete，put….</p>
+<h3 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h3><p><img src="https://img-blog.csdnimg.cn/20210630214304356.png#pic_center" alt="在这里插入图片描述"></p>
+<ol>
+<li>用户在浏览器发起HTTPS请求，默认使用服务端的443端口进行连接；</li>
+<li>HTTPS需要使用一套CA数字证书，证书内会附带一个公钥Pub，而与之对应的私钥Private保留在服务端不公开；</li>
+<li>服务端收到请求，返回配置好的包含公钥Pub的证书给客户端；</li>
+<li>客户端收到证书，校验合法性，主要包括是否在有效期内、证书的域名与请求的域名是否匹配，上一级证书是否有效（递归判断，直到判断到系统内置或浏览器配置好的根证书），如果不通过，则显示HTTPS警告信息，如果通过则继续；</li>
+<li>客户端生成一个用于对称加密的随机Key，并用证书内的公钥Pub进行加密，发送给服务端；</li>
+<li>服务端收到随机Key的密文，使用与公钥Pub配对的私钥Private进行解密，得到客户端真正想发送的随机Key；<br>服务端使用客户端发送过来的随机Key对要传输的HTTP数据进行对称加密，将密文返回客户端；</li>
+<li>客户端使用随机Key对称解密密文，得到HTTP数据明文；</li>
+<li>后续HTTPS请求使用之前交换好的随机Key进行对称加解密。</li>
+</ol>
+<h3 id="区别-1"><a href="#区别-1" class="headerlink" title="区别"></a>区别</h3><ol>
+<li>HTTPS 协议需要到 CA（Certificate Authority，证书颁发机构）申请证书，一般免费证书较少，因而需要一定费用。<br>HTTP 是超文本传输协议，信息是明文传输，HTTPS 则是具有安全性的 TLS 加密传输协议。</li>
+<li>HTTP 和 HTTPS 使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
+<li>HTTP 的连接很简单，是无状态的。HTTPS 协议是由 TLS+HTTP 协议构建的可进行加密传输、身份认证的网络协议，比 HTTP 协议安全。(无状态的意思是其数据包的发送、传输和接收都是相互独立的。无连接的意思是指通信双方都不长久的维持对方的任何信息。)</li>
+</ol>
+<h2 id="5-http状态码"><a href="#5-http状态码" class="headerlink" title="5 http状态码"></a>5 http状态码</h2><p>HTTP状态码由三个十进制数字组成，第一个十进制数字定义了状态码的类型</p>
+<ul>
+<li><p>1** —— 信息，服务器收到请求，需要请求者继续执行操作</p>
+</li>
+<li><p>2** —— 成功，操作被成功接收并处理：</p>
+<ul>
+<li>200，请求成功</li>
+<li>204，对于改请求没用内容可发送</li>
+</ul>
+</li>
+<li><p>3**—— 重定向，需要进一步的操作以完成请求</p>
+<ul>
+<li>301，请求的资源已经永久性更改，在响应中给出了新的URL</li>
+<li>302，请求的资源短暂的更改</li>
+<li>303，指示客户端使用get</li>
+<li>304，使用之前的缓存</li>
+</ul>
+</li>
+<li><p>4** ——客户端错误，请求包含语法错误或无法完成请求</p>
+<ul>
+<li>403，客户端没用访问的权限，服务器拒绝</li>
+<li>404，服务器找不到请求的资源</li>
+</ul>
+</li>
+<li><p>5**—— 服务器错误，服务器在处理请求的过程中发生了错误</p>
+<ul>
+<li>500，服务器给出了一个？（不知道如何处理的情况）</li>
+<li>503，服务器没有准备好，正在维修</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-get-post-区别"><a href="#6-get-post-区别" class="headerlink" title="6 get post 区别"></a>6 get post 区别</h2><ol>
+<li>get用于请求服务器返回资源，post一般用于表单的提交。</li>
+<li>get方法请求参数会拼接在URL上不安全。post方法请求参数放在请求体body中。</li>
+<li>get请求URL有长度限制，post对长度无要求。</li>
+<li>get请求会被浏览器主动cache，post不会，除非手动设置。</li>
+<li>get请求在浏览器反复的 回退&#x2F;前进 操作是无害的，而post操作会再次提交表单请求。</li>
+<li>get请求在发送过程中会产生一个TCP数据包，post在发送过程中会产生两个TCP数据包。 对于get请求，浏览器会把http header和data一并发送出去，服务器响应200；而对于post，浏览器先发送header，服务器响应100 continue,浏览器再发送data，服务器响应200 ok。</li>
+</ol>
+<h2 id="7-cookie和session区别"><a href="#7-cookie和session区别" class="headerlink" title="7 cookie和session区别"></a>7 cookie和session区别</h2><ul>
+<li><p>Cookie存放在客户端浏览器中 Session存放在服务器中。</p>
+</li>
+<li><p>cookie的大小受限制，单个cookie保存的数据<strong>不能超过4K</strong>，很多浏览器都限制一个站点<strong>最多保存20个cookie。</strong> session的大小一般不受限制。</p>
+</li>
+<li><p>工作原理：</p>
+<ul>
+<li><p>服务器第一次接收到请求时，开辟了一块Session空间（创建了Session对象），同时生成一个Session id，并通过响应头的Set-Cookie：“JSESSIONID&#x3D;XXXXXXX”命令，向客户端发送要求设置cookie的响应； 客户端收到响应后，在本机客户端设置了一个JSESSIONID&#x3D;XXXXXXX的cookie信息，该cookie的过期时间为浏览器会话结束；</p>
+</li>
+<li><p>接下来客户端每次向同一个网站发送请求时，请求头都会带上该cookie信息（包含Session id）； 然后，服务器通过读取请求头中的Cookie信息，获取名称为JSESSIONID的值，得到此次请求的Session id；</p>
+<p>注意：服务器只会在客户端第一次请求响应的时候，在响应头上添加Set-Cookie：“JSESSIONID&#x3D;XXXXXXX”信息，接下来在同一个会话的第二第三次响应头里，是不会添加Set- Cookie：“JSESSIONID&#x3D;XXXXXXX”信息的； 而客户端是会在每次请求头的cookie中带上JSESSIONID信息；</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="1-进程、线程、协程"><a href="#1-进程、线程、协程" class="headerlink" title="1 进程、线程、协程"></a>1 进程、线程、协程</h2><h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><p>进程是程序执行的过程，是<strong>资源管理的最小单位</strong>。</p>
+<p>进程一般管理内存资源、IO资源、信号处理，着重注意进程与内存资源。</p>
+<blockquote>
+<p><strong>操作系统采用虚拟内存技术(Virtual Address Space)，把进程虚拟地址空间划分为用户空间和内核空间</strong>。</p>
+</blockquote>
+<h4 id="地址空间"><a href="#地址空间" class="headerlink" title="地址空间"></a>地址空间</h4><ul>
+<li><p>用户空间</p>
+<p>按照<strong>访问属性（可读、可写、可执行）一致的地址空间存放在一起的原则</strong>，分为5块区域：代码段、数据段、BSS段、堆heap、栈stack</p>
+<ul>
+<li>堆是运行进程运行中被动态分配的内存段、大小不固定，可动态扩张（malloc）衰减（free）</li>
+<li>栈是存放程序创建的局部变量（不包括static的）</li>
+</ul>
+</li>
+<li><p>内核空间</p>
+<p>包括了内核镜像、物理页面表、驱动程序。</p>
+</li>
+</ul>
+<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p><strong>线程是资源调度的最小单位</strong>。分为用户级和内核级。</p>
+<h4 id="线程独占的资源"><a href="#线程独占的资源" class="headerlink" title="线程独占的资源"></a>线程独占的资源</h4><ol>
+<li>线程ID</li>
+<li>寄存器组的值</li>
+<li>线程的堆栈</li>
+<li>错误返回码</li>
+<li>线程的信号屏蔽码（线程优先级）</li>
+</ol>
+<h3 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h3><p>协程Coroutines是一种比线程更加轻量级的微线程。</p>
+<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><p>git相关操作<a href="C:\Users\maoma\Documents\Typra\Git\Git-Cheet-Sheet-ByGeekHour.png">指令</a></p>
+<h2 id="1-一个分支同步另一个分支的一个commit"><a href="#1-一个分支同步另一个分支的一个commit" class="headerlink" title="1 一个分支同步另一个分支的一个commit"></a>1 一个分支同步另一个分支的一个commit</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout target-branch  </span><br><span class="line">git cherry-pick &lt;commitHash&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="产品经理"><a href="#产品经理" class="headerlink" title="产品经理"></a>产品经理</h1><ol>
 <li>你为什么要当产品经理？</li>
 <li>谈一谈你的实习经历？</li>
 <li>你觉得产品经理应该具备什么样的素质？ 外向</li>
@@ -339,7 +616,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%B4%A2%E5%BC%95Index%E7%9A%84%E5%AE%9E%E7%8E%B0%E8%A6%81%E7%94%A8B-%E6%A0%91%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">为什么索引Index的实现要用B+树？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="nav-number">1.2.</span> <span class="nav-text">1.相关知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">1.3.</span> <span class="nav-text">2.索引的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">3.索引类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#B-%E6%A0%91%E7%9A%84%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="nav-number">1.4.1.</span> <span class="nav-text">B+树的优点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4B-%E6%A0%91%E6%AF%94B-%E6%A0%91%E6%9B%B4%E9%80%82%E5%90%88%E5%81%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95"><span class="nav-number">1.4.2.</span> <span class="nav-text">为什么说B+树比B-树更适合做数据库索引</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C"><span class="nav-number">2.</span> <span class="nav-text">C++</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JAVA"><span class="nav-number">3.</span> <span class="nav-text">JAVA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="nav-number">4.</span> <span class="nav-text">计算机网络</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">产品经理</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%B4%A2%E5%BC%95Index%E7%9A%84%E5%AE%9E%E7%8E%B0%E8%A6%81%E7%94%A8B-%E6%A0%91%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">1 为什么索引Index的实现要用B+树？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="nav-number">1.2.</span> <span class="nav-text">1.相关知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">1.3.</span> <span class="nav-text">2.索引的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">3.索引类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#B-%E6%A0%91%E7%9A%84%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="nav-number">1.4.1.</span> <span class="nav-text">B+树的优点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4B-%E6%A0%91%E6%AF%94B-%E6%A0%91%E6%9B%B4%E9%80%82%E5%90%88%E5%81%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95"><span class="nav-number">1.4.2.</span> <span class="nav-text">为什么说B+树比B-树更适合做数据库索引</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C"><span class="nav-number">2.</span> <span class="nav-text">C++</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%99%9A%EF%BC%9A-%E5%87%BD%E6%95%B0%E3%80%81-%E5%87%BD%E6%95%B0%E8%A1%A8%E3%80%81-%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88"><span class="nav-number">2.1.</span> <span class="nav-text">1 虚：~函数、 ~函数表、 ~函数指针</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.1.</span> <span class="nav-text">虚函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8%E3%80%81%E8%99%9A%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88"><span class="nav-number">2.1.2.</span> <span class="nav-text">虚函数表、虚函数指针</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-sort%E5%87%BD%E6%95%B0%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">2.2.</span> <span class="nav-text">2 sort函数底层原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">实现逻辑</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B7%B1%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.3.</span> <span class="nav-text">3 浅拷贝和深拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%BA%E5%88%AB"><span class="nav-number">2.3.1.</span> <span class="nav-text">区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JAVA"><span class="nav-number">3.</span> <span class="nav-text">JAVA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="nav-number">4.</span> <span class="nav-text">计算机网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tips"><span class="nav-number">4.1.</span> <span class="nav-text">tips</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-UDP-TCP%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.2.</span> <span class="nav-text">1 UDP TCP基本介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UDP"><span class="nav-number">4.2.1.</span> <span class="nav-text">UDP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP"><span class="nav-number">4.2.2.</span> <span class="nav-text">TCP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-TCP%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AF%E9%9D%A0"><span class="nav-number">4.3.</span> <span class="nav-text">2 TCP为什么可靠</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="nav-number">4.4.</span> <span class="nav-text">3 TCP的三次握手与四次挥手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">4.4.1.</span> <span class="nav-text">三次握手</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="nav-number">4.4.2.</span> <span class="nav-text">四次挥手</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-http%E4%B8%8Ehttps%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">4.5.</span> <span class="nav-text">4 http与https的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP"><span class="nav-number">4.5.1.</span> <span class="nav-text">HTTP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS"><span class="nav-number">4.5.2.</span> <span class="nav-text">HTTPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%BA%E5%88%AB-1"><span class="nav-number">4.5.3.</span> <span class="nav-text">区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-http%E7%8A%B6%E6%80%81%E7%A0%81"><span class="nav-number">4.6.</span> <span class="nav-text">5 http状态码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-get-post-%E5%8C%BA%E5%88%AB"><span class="nav-number">4.7.</span> <span class="nav-text">6 get post 区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-cookie%E5%92%8Csession%E5%8C%BA%E5%88%AB"><span class="nav-number">4.8.</span> <span class="nav-text">7 cookie和session区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="nav-number">5.</span> <span class="nav-text">操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E5%8D%8F%E7%A8%8B"><span class="nav-number">5.1.</span> <span class="nav-text">1 进程、线程、协程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B"><span class="nav-number">5.1.1.</span> <span class="nav-text">进程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="nav-number">5.1.1.1.</span> <span class="nav-text">地址空间</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B"><span class="nav-number">5.1.2.</span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%8B%AC%E5%8D%A0%E7%9A%84%E8%B5%84%E6%BA%90"><span class="nav-number">5.1.2.1.</span> <span class="nav-text">线程独占的资源</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B"><span class="nav-number">5.1.3.</span> <span class="nav-text">协程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">6.</span> <span class="nav-text">Git</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%B8%80%E4%B8%AA%E5%88%86%E6%94%AF%E5%90%8C%E6%AD%A5%E5%8F%A6%E4%B8%80%E4%B8%AA%E5%88%86%E6%94%AF%E7%9A%84%E4%B8%80%E4%B8%AAcommit"><span class="nav-number">6.1.</span> <span class="nav-text">1 一个分支同步另一个分支的一个commit</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86"><span class="nav-number">7.</span> <span class="nav-text">产品经理</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
